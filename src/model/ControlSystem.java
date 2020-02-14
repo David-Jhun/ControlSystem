@@ -6,6 +6,10 @@ import exceptions.ExistingDocumentException;
 
 public class ControlSystem {
 	
+	public final static String IDENTITY_CARD = "Identity card";
+	public final static String CITIZENSHIP_CARD = "Citizenship card";
+	public final static String FOREIGNER_ID = "Foreigner ID";
+	
 	private int letter;
 	private int number;
 	
@@ -90,6 +94,16 @@ public class ControlSystem {
 				shifts.remove(i);
 			}
 		}
+	}
+	
+	public boolean existingUser(String documentNumber) {
+		boolean status = false;
+		for( int i = 0 ; i < users.size() ; i++ ) {
+			if( users.get(i).getDocumentNumber().compareTo(documentNumber) == 0 ) {
+				status = true;
+			}
+		}
+		return status;
 	}
 	
 	public void changeLetter() {

@@ -56,9 +56,9 @@ public class User {
 	@Override
 	public String toString() {
 		String data = "";
-		data += "\nTipo de documento: " + typeOfDocument + " " + "Numero de documento: " + documentNumber;
-		data += "\nNombres: " + names;
-		data += "\nApellidos: " + lastNames;
+		data += "\nType of document: " + typeOfDocument + " " + "Document number: " + documentNumber;
+		data += "\nNames: " + names;
+		data += "\nLast names: " + lastNames;
 		return data;
 	}
 	
