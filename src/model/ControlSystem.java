@@ -47,7 +47,8 @@ public class ControlSystem {
 		return user;
 	}
 	
-	public void addShift() {
+	public String addShift() {
+		String data = "";
 		if( letter >= 91 )
 			letter = 65;
 		if( number > 99 ) {
@@ -55,12 +56,14 @@ public class ControlSystem {
 			changeLetter();
 		}
 		Shift shift = new Shift(letter, number);
+		data = "" + shift;
 		shifts.add(shift);
 		changeNumber();
+		return data;
 	}
 	
-	public void assignShiftToUser(String documentNumber) {
-		Shift shift = searchUnassignShift();
+	public void assignShiftToUser(String documentNumber, String dataShift) {
+		Shift shift = searchUnassignShift(dataShift);
 		User user = searchUser(documentNumber);
 		user.setShift(shift);
 		user.getShift().setAssigned(true);
@@ -76,12 +79,10 @@ public class ControlSystem {
 		}
 	}
 	
-	
-	
-	public Shift searchUnassignShift() throws NullPointerException{
+	public Shift searchUnassignShift( String dataShift ) throws NullPointerException{
 		Shift shift = null;
 		for( int i = 0 ; i < shifts.size() ; i++ ) {
-			if( shifts.get(i).isAssigned() == false ) {
+			if( shifts.get(i).isAssigned() == false && shifts.get(i).getComplete().compareTo(dataShift) == 0 ) {
 				shift = shifts.get(i);
 			}
 		}
@@ -90,7 +91,7 @@ public class ControlSystem {
 	
 	public void removeAttendedShifts() {
 		for( int i = 0 ; i < shifts.size() ; i++ ) {
-			if( shifts.get(i).isStatus() == true ) {
+			if( shifts.get(i).isAttended() == true ) {
 				shifts.remove(i);
 			}
 		}
@@ -99,9 +100,17 @@ public class ControlSystem {
 	public boolean existingUser(String documentNumber) {
 		boolean status = false;
 		for( int i = 0 ; i < users.size() ; i++ ) {
-			if( users.get(i).getDocumentNumber().compareTo(documentNumber) == 0 ) {
+			if( users.get(i).getDocumentNumber().compareTo(documentNumber) == 0 )
 				status = true;
-			}
+		}
+		return status;
+	}
+	
+	public boolean existingShift(String dataShift) {
+		boolean status = false;
+		for( int i = 0 ; i < shifts.size() ; i++ ) {
+			if( shifts.get(i).getComplete().compareTo(dataShift) == 0 ) 
+				status = true;
 		}
 		return status;
 	}

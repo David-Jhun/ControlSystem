@@ -2,20 +2,28 @@ package model;
 
 public class Shift {
 	
-	private boolean status;
+	private boolean attended;
+	private boolean notAttended;
 	private boolean assigned;
 	private char letter;
 	private int number;
+	private String complete;
 	
 	public Shift(int letter, int number) {
-		status = false;
+		attended = false;
+		notAttended = false;
 		assigned = false;
 		this.letter = (char)letter;
 		this.number = number;
+		complete = setInformation();
 	}
 
-	public boolean isStatus() {
-		return status;
+	public boolean isAttended() {
+		return attended;
+	}
+
+	public boolean isNotAttended() {
+		return notAttended;
 	}
 
 	public boolean isAssigned() {
@@ -26,8 +34,8 @@ public class Shift {
 		return letter;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setStatus(boolean attended) {
+		this.attended = attended;
 	}
 
 	public void setAssigned(boolean assigned) {
@@ -41,47 +49,55 @@ public class Shift {
 	public int getNumber() {
 		return number;
 	}
-
-	@Override
-	public String toString() {
+	
+	public String getComplete() {
+		return complete;
+	}
+	
+	public String setInformation() {
 		String data = "";
 		if( number < 10 ) {
 			switch(number) {
 			case 0:
-				data = "\n" + letter + "00";
+				data = letter + "00";
 				break;
 			case 1:
-				data = "\n" + letter + "01";
+				data = letter + "01";
 				break;
 			case 2:
-				data = "\n" + letter + "02";
+				data = letter + "02";
 				break;
 			case 3:
-				data = "\n" + letter + "03";
+				data = letter + "03";
 				break;
 			case 4:
-				data = "\n" + letter + "04";
+				data = letter + "04";
 				break;
 			case 5:
-				data = "\n" + letter + "05";
+				data = letter + "05";
 				break;
 			case 6:
-				data = "\n" + letter + "06";
+				data = letter + "06";
 				break;
 			case 7:
-				data = "\n" + letter + "07";
+				data = letter + "07";
 				break;
 			case 8:
-				data = "\n" + letter + "08";
+				data = letter + "08";
 				break;
 			case 9:
-				data = "\n" + letter + "09";
+				data = letter + "09";
 				break;
 			}
 		}else {
-			data = "\n" + letter + number;
+			data = "" + letter + number;
 		}
 		return data;
+	}
+
+	@Override
+	public String toString() {
+		return setInformation();
 	}
 	
 }
