@@ -30,6 +30,7 @@ public class Main {
 				System.out.println("2. Generate a shift.");
 				System.out.println("3. Assign shift to the user.");
 				System.out.println("4. Search a user by its document number.");
+				System.out.println("5. Consult the next shift to attend.");
 				System.out.println("7. Exit from the menu.");
 				System.out.println();
 				options = dataReader.nextInt();
@@ -47,12 +48,15 @@ public class Main {
 				case 4:
 					menuSearchUser();
 					break;
+				case 5:
+					menuConsultShiftToAttend();
+					break;
 				default:
 					System.out.println("Thanks for using the program.");
 					break;
 				}
 			}catch( InputMismatchException e ) {
-				System.out.println("shit");
+				System.out.println("Enter a valid option.");
 				dataReader.nextLine();
 			}
 		}while( options != 7 );
@@ -174,6 +178,10 @@ public class Main {
 			System.out.println("The user was successfully found.");
 			System.out.println(cs.searchUser(documentNumber));
 		}
+	}
+	
+	public void menuConsultShiftToAttend() {
+		System.out.println(cs.consultShiftToAttend());
 	}
 	
 	public static void main(String[] args) {

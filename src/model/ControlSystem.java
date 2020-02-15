@@ -69,6 +69,26 @@ public class ControlSystem {
 		user.getShift().setAssigned(true);
 	}
 	
+	public String consultShiftToAttend() {
+		String xd = "";
+		if( shifts.isEmpty() ) {
+			xd = "\nThere are not shifts to attend.";
+		}else {
+			for( int i = 0 ; i < shifts.size() ; i++ ) {
+				if( shifts.get(i).isAssigned() == true && shifts.get(i + 1) != null ) {
+					if( shifts.get(i).getComplete().compareTo(shifts.get(i + 1).getComplete()) < 1 ) {
+						xd = shifts.get(i).getComplete();
+					}else {
+						xd = shifts.get(i + 1).getComplete();
+					}
+				}else {
+					xd = shifts.get(i).getComplete();
+				}
+			}
+		}
+		return xd;
+	}
+	
 	public void attendUserShift() {
 		for( int i = 0 ; i < users.size() ; i++ ) {
 			if( users.get(i).getShift() != null ) {
