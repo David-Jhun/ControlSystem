@@ -8,7 +8,7 @@ public class ControlSystem {
 	
 	public final static String IDENTITY_CARD = "Identity card";
 	public final static String CITIZENSHIP_CARD = "Citizenship card";
-	public final static String FOREIGNER_ID = "Foreigner ID";
+	public final static String FOREIGNER_ID = "Foreigner Id";
 	
 	private int letter;
 	private int number;
