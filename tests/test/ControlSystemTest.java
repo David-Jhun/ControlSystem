@@ -3,6 +3,7 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import model.ControlSystem;
+import model.User;
 import exceptions.ExistingDocumentException;
 
 public class ControlSystemTest {
@@ -27,8 +28,44 @@ public class ControlSystemTest {
 	
 	private void setupStage4() {
 		cs = new ControlSystem();
+		for( int i = 0 ; i < 3 ; i++ ) {
+			cs.changeLetter();
+		}
+		for( int i = 0 ; i < 100 ; i++ ) {
+			cs.changeNumber();
+		}
+	}
+	
+	private void setupStage5() {
+		cs = new ControlSystem();
+		for( int i = 0 ; i < 25 ; i++ ) {
+			cs.changeLetter();
+		}
+		for( int i = 0 ; i < 100 ; i++) {
+			cs.changeNumber();
+		}
+	}
+	
+	private void setupStage6() {
 		try {
-			cs.addUser("Citizenship card", "246810", "Antonio", "Uchiha", "", "");
+			setupStage2();
+		}catch( ExistingDocumentException e ) {
+			fail();
+		}
+		cs.addShift();
+		cs.assignShiftToUser("654789", "A00");
+	}
+	
+	private void setupStage7() {
+		try {
+			setupStage3();
+			for( int i = 0 ; i < 50 ; i++ ) {
+				cs.addShift();
+			}
+			cs.assignShiftToUser("654789", "A00");
+			cs.assignShiftToUser("135791", "A10");
+			cs.assignShiftToUser("246810", "A48");
+			cs.attendUserShift(1, "A10");
 		}catch( ExistingDocumentException e ) {
 			fail();
 		}
@@ -71,14 +108,66 @@ public class ControlSystemTest {
 	
 	@Test
 	public void testSearchUser() {
-		setupStage4();
+		User user = null;
 		try {
-			cs.searchUser("123456");
+			setupStage2();
+			user = cs.searchUser("654789");
+			assertEquals("Identity card", user.getTypeOfDocument());
+			assertEquals("654789", user.getDocumentNumber());
+			assertEquals("Andres", user.getNames());
 		}catch( NullPointerException e ) {
+			fail();
+		}catch ( ExistingDocumentException e ) {
+			fail();
+		}
+		//-------------------------------------------------------------------------------
+		setupStage1();
+		try {
+			user = cs.searchUser("654789");
+		}catch( NullPointerException e ) {
+			assertTrue(true);
+		}
+		//-------------------------------------------------------------------------------
+		try {
+			setupStage3();
+			user = cs.searchUser("246810");
+			assertEquals("246810", user.getDocumentNumber());
+			assertEquals("Antonio", user.getNames());
+		}catch ( ExistingDocumentException e ) {
 			fail();
 		}
 	}
 	
+	@Test
+	public void testAddShift() {
+		setupStage1();
+		assertEquals("A00", cs.addShift());
+		//-------------------------------------------------------------------------------
+		setupStage4();
+		assertEquals("E00", cs.addShift());
+		//-------------------------------------------------------------------------------
+		setupStage5();
+		assertEquals("A00", cs.addShift());
+		//-------------------------------------------------------------------------------
+		setupStage6();
+		assertEquals("A01", cs.addShift());
+	}
 	
-
+	@Test
+	public void testAssignShiftToUser() {
+		
+	}
+	
+	@Test
+	public void testConsultShiftToAttend() {
+		setupStage6();
+		assertEquals("A00", cs.consultShiftToAttend());
+	}
+	
+	@Test
+	public void testAttendUserShift() {
+		setupStage7();
+		cs.attendUserShift(2, "A49");
+		assertEquals(49, cs.getShifts().size());
+	}
 }

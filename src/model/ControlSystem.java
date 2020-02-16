@@ -49,11 +49,13 @@ public class ControlSystem {
 	
 	public String addShift() {
 		String data = "";
-		if( letter >= 91 )
+		if( letter > 90 )
 			letter = 65;
 		if( number > 99 ) {
 			number = 0;
 			changeLetter();
+			if( letter > 90 )
+				letter = 65;
 		}
 		Shift shift = new Shift(letter, number);
 		data = "" + shift;
