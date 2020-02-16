@@ -13,12 +13,14 @@ public class ControlSystemTest {
 	private void setupStage1() {
 		cs = new ControlSystem();
 		cs.addShift();
+		cs.addShift();
+		cs.addShift();
 	}
 	
 	@Test
 	public void testsearchUnassignShift() {
 		setupStage1();
-		String data = "A00";
+		String data = "A02";
 		assertEquals(data, cs.searchUnassignShift(data).getComplete());
 	}
 

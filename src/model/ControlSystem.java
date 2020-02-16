@@ -71,32 +71,35 @@ public class ControlSystem {
 	
 	public String consultShiftToAttend() {
 		String xd = "";
-		if( shifts.isEmpty() ) {
-			xd = "\nThere are not shifts to attend.";
-		}else {
-			for( int i = 0 ; i < shifts.size() ; i++ ) {
-				if( shifts.get(i).isAssigned() == true && shifts.get(i + 1) != null ) {
-					if( shifts.get(i).getComplete().compareTo(shifts.get(i + 1).getComplete()) < 1 ) {
-						xd = shifts.get(i).getComplete();
-					}else {
-						xd = shifts.get(i + 1).getComplete();
-					}
-				}else {
-					xd = shifts.get(i).getComplete();
-				}
+		for( int i = 0 ; i < shifts.size() ; i++ ) {
+			if( shifts.get(i).isAssigned() == true ) {
+				xd = shifts.get(i).getComplete();
 			}
 		}
 		return xd;
 	}
 	
-	public void attendUserShift() {
+	public boolean consultShiftsStatus() {
+		boolean status = false;
+		for( int i = 0 ; i < shifts.size() ; i++ ) {
+			if( shifts.get(i).isAssigned() == true ) {
+				status = true;
+			}
+		}
+		return status;
+	}
+	
+	public void attendUserShift(int option, String shift) {
 		for( int i = 0 ; i < users.size() ; i++ ) {
-			if( users.get(i).getShift() != null ) {
-				if( users.get(i).getShift().isAssigned() == true ) {
-					
+			if( users.get(i).getShift().getComplete().equals(shift) ) {
+				if( option == 1 ) {
+					users.get(i).getShift().setAttended(true);
+				}else if( option == 2 ) {
+					users.get(i).getShift().setNotAttended(true);
 				}
 			}
 		}
+		removeAttendedShifts();
 	}
 	
 	public Shift searchUnassignShift( String dataShift ) throws NullPointerException{
@@ -111,7 +114,7 @@ public class ControlSystem {
 	
 	public void removeAttendedShifts() {
 		for( int i = 0 ; i < shifts.size() ; i++ ) {
-			if( shifts.get(i).isAttended() == true ) {
+			if( shifts.get(i).isAttended() == true || shifts.get(i).isNotAttended() == true ) {
 				shifts.remove(i);
 			}
 		}

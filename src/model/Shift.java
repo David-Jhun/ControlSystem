@@ -34,8 +34,12 @@ public class Shift {
 		return letter;
 	}
 
-	public void setStatus(boolean attended) {
+	public void setAttended(boolean attended) {
 		this.attended = attended;
+	}
+
+	public void setNotAttended(boolean notAttended) {
+		this.notAttended = notAttended;
 	}
 
 	public void setAssigned(boolean assigned) {

@@ -31,6 +31,7 @@ public class Main {
 				System.out.println("3. Assign shift to the user.");
 				System.out.println("4. Search a user by its document number.");
 				System.out.println("5. Consult the next shift to attend.");
+				System.out.println("6. Attends a user's shift.");
 				System.out.println("7. Exit from the menu.");
 				System.out.println();
 				options = dataReader.nextInt();
@@ -50,6 +51,9 @@ public class Main {
 					break;
 				case 5:
 					menuConsultShiftToAttend();
+					break;
+				case 6:
+					menuAttendUserShift();
 					break;
 				default:
 					System.out.println("Thanks for using the program.");
@@ -181,7 +185,37 @@ public class Main {
 	}
 	
 	public void menuConsultShiftToAttend() {
-		System.out.println(cs.consultShiftToAttend());
+		if( cs.getShifts().isEmpty() || cs.consultShiftsStatus() == false ) {
+			System.out.println("There are not shifts assigned to the users.");
+		}else {
+			System.out.println("The next shift to attend is: " + cs.consultShiftToAttend());
+		}
+	}
+	
+	public void menuAttendUserShift() {
+		int option1 = 0;
+		boolean xd = true;
+		do {
+			try {
+				if( cs.consultShiftsStatus() == false ){
+					System.out.println("There are not shifts assigned to the users.");
+					xd = false;
+				}else{
+					System.out.println("The current shift to attend is: " + cs.consultShiftToAttend());
+					System.out.println("What would you like to do?");
+					System.out.println("1. Attend the current shift.");
+					System.out.println("2. The user wasn't ");
+					option1 = dataReader.nextInt();
+					dataReader.nextLine();
+					cs.attendUserShift(option1, cs.consultShiftToAttend());
+					System.out.println("The shift was successfully attended.");
+					xd = false;
+				}	
+			}catch( InputMismatchException e ) {
+				System.out.println("Enter a valid option.");
+				dataReader.nextLine();
+			}
+		}while( xd );
 	}
 	
 	public static void main(String[] args) {
