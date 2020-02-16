@@ -155,7 +155,18 @@ public class ControlSystemTest {
 	
 	@Test
 	public void testAssignShiftToUser() {
-		
+		setupStage6();
+		assertEquals(cs.consultShiftToAttend(), cs.getUsers().get(0).getShift().getComplete());
+		//-------------------------------------------------------------------------------
+		try {
+			setupStage2();
+			cs.addShift();
+			cs.addShift();
+			cs.assignShiftToUser("654789", "A01");
+			assertEquals("A01", cs.consultShiftToAttend());
+		}catch ( ExistingDocumentException e ) {
+			fail();
+		}
 	}
 	
 	@Test
